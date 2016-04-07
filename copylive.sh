@@ -25,12 +25,52 @@ function help {
     if the -m switch is specified it will clean up all magneto connector related connections to avoid TARGET from connecting to the 
 
     Before doing that it will fetch the old target options and save them in 
-    ~home/magento_options.txt
-    "
+    ~home/magento_options.txt"
+}    
+
+function magento {
+    echo " magento cleanup functionality still not implemented"
+}
+
 
 LIVE_DB=$1
 LIVE_USER=$1
 TARGET_DB=$2
+
+function noarguments {
+    if [ -z "$1" ] || [ -z  "$2"]; then
+    help
+    echo " ABORTING , missing minimal arguments"
+    }
+
+
+function no_livedb {
+    if [-z "$4" ]; then
+    echo "USING DEFAULT FOR SOURCE DATABASE NAME: $1"
+}
+
+function no_targetdb {
+    if [-z "$4" ]; then
+    echo "USING DEFAULT FOR TARGET DATABASE NAME $2 "
+}
+
+
+while getopts ":h:m" opt; do
+    case $opt in
+    h)
+        help
+        exit
+        ;;
+    m)  
+        magento
+        exit
+        ;;
+    \?)
+        help
+        echo "UNKNOWN OPTION: ~$OPTARG"
+    esac
+done
+
 
 TEST_USER="openerp"
 DBNAME="${LIVE_DB}_$(date +%F)"
