@@ -33,25 +33,32 @@ function magento {
 }
 
 
-LIVE_DB=$1
-LIVE_USER=$1
-TARGET_DB=$2
-
 function noarguments {
     if [ -z "$1" ] || [ -z  "$2"]; then
     help
     echo " ABORTING , missing minimal arguments"
     }
-
+ 
+LIVE_USER=$1
+TARGET_USER=$2
 
 function no_livedb {
     if [-z "$4" ]; then
-    echo "USING DEFAULT FOR SOURCE DATABASE NAME: $1"
-}
-
-function no_targetdb {
-    if [-z "$4" ]; then
-    echo "USING DEFAULT FOR TARGET DATABASE NAME $2 "
+        if [-z "$3" ]; then
+            LIVE_DB=$1
+            TARGET_DB=$2
+            echo "USING DEFAULT NAME FOR SOURCE DATABASE: ${LIVE_DB}"
+            echo "USING DEFAULT NAME FOR TARGET DATABASE: ${TARGET_DB}"
+        else    
+            LIVE_DB=$3
+            TARGEddT_DB=$2
+            echo "USING Specified name for SOURCE DATABASE: ${LIVE_DB} "
+            echo "USING DEFAULT NAME FOR TARGET DATABASE: ${TARGET_DB}" 
+        fi
+    else
+        LIVE_DB=$3
+        TARGET_DB=$4
+    fi
 }
 
 
