@@ -28,48 +28,50 @@ function help {
 
     Magento extension:
 
-    if the -m switch is specified it will clean up all magneto connector related connections to avoid TARGET from connecting to the production magento." 
-
+    if the -m switch is specified it will clean up all magneto connector related connections to avoid TARGET from connecting to the production magento.
+    " 
 }    
 
 function magento {
     echo " magento cleanup functionality still not implemented"
 }
 
-function noarguments {
-    if [ -z "$1" ] || [ -z  "$2"]; then
-    help
-    echo "ABORTING , missing minimal arguments"
-}
- 
+
 ORIGIN_USER=$1
 TARGET_USER=$2
 
-function no_livedb {
-    if [-z "$4" ]; then
-        if [-z "$3" ]; then
-            ORIGIN_DB=$1
-            TARGET_DB=$2
-            echo "USING DEFAULT NAME FOR SOURCE DATABASE: ${ORIGIN_DB}"
-            echo "USING DEFAULT NAME FOR TARGET DATABASE: ${TARGET_DB}"
-        else    
-            ORIGIN_DB=$3
-            TARGET_DB=$2
-            echo "USING Specified name for SOURCE DATABASE: ${ORIGIN_DB} "
-            echo "USING DEFAULT NAME FOR TARGET DATABASE: ${TARGET_DB}" 
-        fi
-    else
+if [ -z "$1" ] || [ -z  "$2" ]; then
+    help
+    echo "====ABORTING , missing minimal arguments==="
+    exit
+fi
+
+if [ -z "$4" ]; then
+    if [ -z "$3" ]; then
+        ORIGIN_DB=$1
+        TARGET_DB=$2
+        echo "USING DEFAULT NAME FOR SOURCE DATABASE: ${ORIGIN_DB}"
+        echo "USING DEFAULT NAME FOR TARGET DATABASE: ${TARGET_DB}"
+    else    
         ORIGIN_DB=$3
-        TARGET_DB=$4
+        TARGET_DB=$2
+        echo "USING Specified name for SOURCE DATABASE: ${ORIGIN_DB} "
+        echo "USING DEFAULT NAME FOR TARGET DATABASE: ${TARGET_DB}" 
     fi
-}
+else
+    ORIGIN_DB=$3
+    TARGET_DB=$4
+fi
+
+
 
 while getopts ":h:m:s" opt; do
     case $opt in
     s)
         ORIGIN_HOST=$OPTARG
         SSH="ssh $ORIGIN_USER@$ORIGIN_HOST"
-        echo "SSH Live user set on ${SSH}"
+        echo "SSH Origin user/Host set on ${SSH}"
+        ;;
     h)
         help
         exit
@@ -81,6 +83,7 @@ while getopts ":h:m:s" opt; do
     \?)
         help
         echo "UNKNOWN OPTION: ~$OPTARG"
+        ;;
     esac
 done
 
