@@ -5,8 +5,33 @@
 
 cd /tmp
 
+function help {
+    echo"
+    if the username and the database name are the same:
+
+    copylive  source_user  target_user
+
+    will copy from db "source" of user source   to db "target"
+    of user "target". (Default DBNAME = USERNAME)
+    If the DB does not exist it will create it.
+
+    copylive  source_user  target_user  DB_nameorigin DB_nametarget
+    
+    Will copy DB_nameorigin of source_user to DB_nametarget of targetuser
+    if DB_nametarget doesn't exist will create it.
+
+    Magento extension:
+
+    if the -m switch is specified it will clean up all magneto connector related connections to avoid TARGET from connecting to the 
+
+    Before doing that it will fetch the old target options and save them in 
+    ~home/magento_options.txt
+    "
+
 LIVE_DB=$1
 LIVE_USER=$1
+TARGET_DB=$2
+
 TEST_USER="openerp"
 DBNAME="${LIVE_DB}_$(date +%F)"
 LIVE_HOST=192.168.11.31
