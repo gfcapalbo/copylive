@@ -12,6 +12,7 @@ function help {
 
     -s   SHH Host to fetch live user
     -m   PERFORM MAGENTO OPERATIONS
+    -D   use default Datatbase NAME for Target = ORIGIN_NAME_{datetime of copy}
 
     MINIMAL USAGE:
 
@@ -72,6 +73,7 @@ while getopts ":h:m:s" opt; do
         SSH="ssh $ORIGIN_USER@$ORIGIN_HOST"
         echo "SSH Origin user/Host set on ${SSH}"
         ;;
+
     h)
         help
         exit
@@ -80,6 +82,8 @@ while getopts ":h:m:s" opt; do
         magento
         exit
         ;;
+    D)
+
     \?)
         help
         echo "UNKNOWN OPTION: ~$OPTARG"
@@ -90,6 +94,9 @@ done
 
 #TARGET_USER="openerp"
 #DBNAME="${ORIGIN_DB}_$(date +%F)"  #using default name
+
+
+
 DBNAME=${TARGET_DB}
 
 
